@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include <criterion/criterion.h>
 
-#include "board.h"
+#include "../headers/board.h"
 
 Test(board_new, test_new_board_matrix) {
   board* b = board_new(8, 6, MATRIX);

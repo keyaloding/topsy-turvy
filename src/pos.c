@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "pos.h"
+#include "../headers/pos.h"
 
 pos make_pos(unsigned int r, unsigned int c) {
   pos p;

@@ -1,6 +1,7 @@
 #ifndef POS_H
 #define POS_H
 
+/* Represents a position on the board. */
 struct pos {
     unsigned int r, c;
 };
@@ -9,11 +10,13 @@ typedef struct pos pos;
 
 typedef struct pq_entry pq_entry;
 
+/* Entries within a `posqueue` that store the position. */
 struct pq_entry {
     pos p;
     pq_entry *next, *prev;
 };
 
+/* A doubly linked list that stores a player's pieces. */
 struct posqueue {
     pq_entry *head, *tail;
     unsigned int len;

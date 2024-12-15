@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
 
-#include "board.h"
-#include "logic.h"
+#include "../headers/board.h"
+#include "../headers/logic.h"
 
 Test(new_game, test_new_game_matrix) {
   game* g = new_game(5, 16, 4, MATRIX);

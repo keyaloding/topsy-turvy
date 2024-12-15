@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "board.h"
-#include "logic.h"
+#include "../headers/board.h"
+#include "../headers/logic.h"
 
 /* Raises an error indicating that the game could not be started because of
  * incorrect command-line arguments. */

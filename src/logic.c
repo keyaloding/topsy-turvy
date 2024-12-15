@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <pthread.h>
 
-#include "pos.h"
-#include "board.h"
-#include "logic.h"
+#include "../headers/pos.h"
+#include "../headers/board.h"
+#include "../headers/logic.h"
 
 game* new_game(unsigned int run, unsigned int width,
                unsigned int height, enum type type) {

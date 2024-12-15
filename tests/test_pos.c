@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <criterion/criterion.h>
-#include "pos.h"
+#include "../headers/pos.h"
 
 Test(make_pos, test_new_pos) {
   pos p = make_pos(7, 11);

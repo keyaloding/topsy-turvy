@@ -11,6 +11,8 @@ enum cell {
 
 typedef enum cell cell;
 
+/* Board type. `matrix` uses a 2-dimensional array and `bits` uses an array of
+ * unsigned integers, with each integer divided into 16 cells (2 bits each). */
 union board_rep {
     enum cell** matrix;
     unsigned int* bits;

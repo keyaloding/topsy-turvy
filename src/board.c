@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 
-#include "board.h"
+#include "../headers/board.h"
 
 board* board_new(unsigned int width, unsigned int height, enum type type) {
   board* b = (board*)malloc(sizeof(board));
