@@ -8,13 +8,10 @@
 /* Raises an error indicating that the game could not be started because of
  * incorrect command-line arguments. */
 void raise_game_init_error() {
-  fprintf(stderr, "Error: Invalid command-line argument format. Either run:\n"
-          "./play -h x -w y -r z -m\nOR\n" 
-          "./play -h x -w y -r z -b\n"
+  fprintf(stderr, "Error: Invalid command-line argument format. Run:\n"
+          "./play -h x -w y -r z\n" 
           "'x', 'y', and 'z' should be unsigned integers representing the "
-          "height, width, and winning run length of the game, respectively.\n"
-          "-m creates a matrix representation of the board and -b creates a "
-          "bits representation.\n");
+          "height, width, and winning run length of the game, respectively.\n");
   exit(1);
 }
 
@@ -36,10 +33,10 @@ bool is_unsigned_int(char* s) {
 /* Initializes a game using the command line arguments. Exits the program if
  * the game cannot be configured. */
 game* game_init(int argc, char** argv) {
-  if (argc < 8) {
+  if (argc < 7) {
     raise_game_init_error();
   }
-  unsigned int i, h = 0, w = 0, r = 0, type = 2;
+  unsigned int i, h = 0, w = 0, r = 0;
   for (i = 1; i < argc; i++) {
     if (!strcmp(argv[i], "-h")) {
       if (i + 1 == argc || h || !is_unsigned_int(argv[i + 1])) {
@@ -56,16 +53,6 @@ game* game_init(int argc, char** argv) {
         raise_game_init_error();
       }
       r = atoi(argv[i + 1]);
-    } else if (!strcmp(argv[i], "-m")) {
-      if (type == BITS || type == MATRIX) {
-        raise_game_init_error();
-      }
-      type = MATRIX;
-    } else if (!strcmp(argv[i], "-b")) {
-      if (type == BITS || type == MATRIX) {
-        raise_game_init_error();
-      }
-      type = BITS;
     } else if (is_unsigned_int(argv[i])) {
       if (!strcmp(argv[i - 1], "-h") || !strcmp(argv[i - 1], "-w") ||
           !strcmp(argv[i - 1], "-r") ) {
@@ -77,10 +64,10 @@ game* game_init(int argc, char** argv) {
       raise_game_init_error();
     }
   }
-  if (!h || !w || !r || type > 1) {
+  if (!h || !w || !r) {
     raise_game_init_error();
   }
-  game* g = new_game(r, w, h, type);
+  game* g = new_game(r, w, h, BITS);
   return g;
 }
 
@@ -106,6 +93,12 @@ outcome play_move(game* g, char move) {
   } else if (move == '?') {
     fprintf(stdout, "Invalid move: Pieces cannot be dropped in '?' columns\n");
     return IN_PROGRESS;
+  } else if (move == '.') {
+    if (g->player == BLACKS_TURN) {
+      return WHITE_WIN;
+    } else {
+      return BLACK_WIN;
+    }
   } else {
     fprintf(stdout, "'%c' (ASCII: %d) is an invalid move\n"
            "To drop a piece, enter the column name (1-9, A-Z, a-z)\n"
