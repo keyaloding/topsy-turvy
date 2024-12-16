@@ -12,20 +12,16 @@ board* board_new(unsigned int width, unsigned int height, enum type type) {
   }
   b->type = type;
   if (b->type == MATRIX) {
-    unsigned int i, j;
-    cell** matrix = (cell**)malloc(sizeof(cell*) * height);
+    cell** matrix = (cell**)calloc(height, sizeof(cell*));
     if (!matrix) {
       fprintf(stderr, "Error: Memory allocation error\n");
       exit(1);
     }
-    for (i = 0; i < height; i++) {
-      matrix[i] = (cell*)malloc(sizeof(cell) * width);
+    for (unsigned int i = 0; i < height; i++) {
+      matrix[i] = (cell*)calloc(width, sizeof(cell));
       if (!matrix[i]) {
         fprintf(stderr, "Error: Memory allocation error\n");
         exit(1);
-      }
-      for (j = 0; j < width; j++) {
-        matrix[i][j] = EMPTY;
       }
     }
     b->u.matrix = matrix;
@@ -34,13 +30,10 @@ board* board_new(unsigned int width, unsigned int height, enum type type) {
     if (width * height % 16) {
       len++;
     }
-    unsigned int* bits = (unsigned int*)malloc(sizeof(unsigned int) * len);
+    unsigned int* bits = (unsigned int*)calloc(len, sizeof(unsigned int));
     if (!bits) {
       fprintf(stderr, "Error: Memory allocation error\n");
       exit(1);
-    }
-    for (unsigned int i = 0; i < len; i++) {
-      bits[i] = 0;
     }
     b->u.bits = bits;
   }

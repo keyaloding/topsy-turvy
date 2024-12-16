@@ -9,9 +9,11 @@
  * incorrect command-line arguments. */
 void raise_game_init_error() {
   fprintf(stderr, "Error: Invalid command-line argument format. Run:\n"
-          "./play -h x -w y -r z\n" 
+          "./play -h x -w y -r z -t\n"
           "'x', 'y', and 'z' should be unsigned integers representing the "
-          "height, width, and winning run length of the game, respectively.\n");
+          "height, width, and winning run length of the game, respectively. "
+          "t should be `m` for the matrix representation and `b` for the bits "
+          "representation.\n");
   exit(1);
 }
 
@@ -20,12 +22,13 @@ bool is_unsigned_int(char* s) {
   if (!s[0]) {
     return false;
   }
-  unsigned int i = 0;
-  while (s[i]) {
+  for (int i = 0; s[i]; i++) {
     if (s[i] < '0' || s[i] > '9') {
       return false;
     }
-    i++;
+    if (i > 10) {
+      return false;
+    }
   }
   return true;
 }
@@ -33,10 +36,7 @@ bool is_unsigned_int(char* s) {
 /* Initializes a game using the command line arguments. Exits the program if
  * the game cannot be configured. */
 game* game_init(int argc, char** argv) {
-  if (argc < 7) {
-    raise_game_init_error();
-  }
-  unsigned int i, h = 0, w = 0, r = 0;
+  unsigned int i, h = 8, w = 8, r = 4, type = BITS;
   for (i = 1; i < argc; i++) {
     if (!strcmp(argv[i], "-h")) {
       if (i + 1 == argc || h || !is_unsigned_int(argv[i + 1])) {
@@ -49,10 +49,20 @@ game* game_init(int argc, char** argv) {
       }
       w = atoi(argv[i + 1]);
     } else if (!strcmp(argv[i], "-r")) {
-      if (i + 1 == argc || r) {
+      if (i + 1 == argc || r || !is_unsigned_int(argv[i + 1])) {
         raise_game_init_error();
       }
       r = atoi(argv[i + 1]);
+    } else if (!strcmp(argv[i], "-m")) {
+      if (type < 2) {
+        raise_game_init_error();
+      }
+      type = MATRIX;
+    } else if (!strcmp(argv[i], "-b")) {
+      if (type < 2) {
+        raise_game_init_error();
+      }
+      type = BITS;
     } else if (is_unsigned_int(argv[i])) {
       if (!strcmp(argv[i - 1], "-h") || !strcmp(argv[i - 1], "-w") ||
           !strcmp(argv[i - 1], "-r") ) {
@@ -64,10 +74,7 @@ game* game_init(int argc, char** argv) {
       raise_game_init_error();
     }
   }
-  if (!h || !w || !r) {
-    raise_game_init_error();
-  }
-  game* g = new_game(r, w, h, BITS);
+  game* g = new_game(r, w, h, type);
   return g;
 }
 
@@ -112,6 +119,7 @@ outcome play_move(game* g, char move) {
   }
   if (!drop_piece(g, col)) {
     fprintf(stdout, "Invalid move: Column %u is full.\n", col);
+    return IN_PROGRESS;
   }
   return game_outcome(g);
 }

@@ -114,8 +114,8 @@ struct thread_args {
 };
 
 /* Performs `disarray` on a single column. */
-void* col_disarray(void* a) {
-  struct thread_args* thread_args = (struct thread_args*)a;
+void* col_disarray(void* args) {
+  struct thread_args* thread_args = (struct thread_args*)args;
   game* g = thread_args->g;
   unsigned int i, col = thread_args->col, height = g->b->height;
   pos p1, p2;
@@ -210,7 +210,6 @@ bool offset(game* g) {
     p1 = pos_dequeue(g->white_queue);
     g->player = BLACKS_TURN;
   }
-
   board_set(g->b, p1, EMPTY);
   p2 = make_pos(p1.r - 1, p1.c);
   cell color;
