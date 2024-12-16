@@ -8,12 +8,7 @@
 /* Raises an error indicating that the game could not be started because of
  * incorrect command-line arguments. */
 void raise_game_init_error() {
-  fprintf(stderr, "Error: Invalid command-line argument format. Run:\n"
-          "./play -h x -w y -r z -t\n"
-          "'x', 'y', and 'z' should be unsigned integers representing the "
-          "height, width, and winning run length of the game, respectively. "
-          "t should be `m` for the matrix representation and `b` for the bits "
-          "representation.\n");
+  fprintf(stderr, "Error: Invalid command-line argument format\n");
   exit(1);
 }
 
