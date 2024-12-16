@@ -20,6 +20,13 @@ enum outcome {
 
 typedef enum outcome outcome;
 
+class Game {
+  public:
+
+  private:
+    int run;
+};
+
 struct game {
   unsigned int run;
   board* b;

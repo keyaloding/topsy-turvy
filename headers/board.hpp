@@ -15,8 +15,8 @@ typedef enum cell cell;
 /* Board type. `matrix` uses a 2-dimensional array and `bits` uses an array of
  * unsigned integers, with each integer divided into 16 cells (2 bits each). */
 union board_rep {
-  enum cell** matrix;
-  unsigned int* bits;
+  vector<vector<cell>> matrix;
+  vector<int> bits;
 };
 
 typedef union board_rep board_rep;
@@ -33,34 +33,43 @@ struct board {
   board_rep u;
 };
 
+using namespace std;
+
 class Board {
   public:
-    board_rep b;
-    type type;
-    int height, width;
-    
-    void board_show() {
+    /* Getter for the class, creates a new board with the specified size
+     * and configuration. */
+    Board(int b_height, int b_width, enum type b_type);
 
-    }
+    ~Board();
+
+    /* Prints the board to the screen with row and column headers. */
+    void board_show();
+
+    /* Gets the cell at the specified position on the board. Raises an error
+     * if the position is out of bounds. */
+    cell board_get(pos p);
+
+    /* Sets the cell at the specified position on the board. Raises an error
+     * if the position is out of bounds. */
+    void board_set(pos p, cell c);
+
+    int get_height();
+
+    int get_width();
+
+    type get_type();
+
+    vector<vector<cell>> get_matrix();
+
+    vector<int> get_bits();
+  
+  private:
+    int height, width;
+    board_rep u;
+    type type;
 };
 
-typedef struct board board;
-
-/* Creates a new, empty board with the specified size and type. */
-board* board_new(unsigned int width, unsigned int height, enum type type);
-
-/* Frees an existing board from memory. */
-void board_free(board* b);
-
-/* Prints the board to the screen with row and column headers. */
-void board_show(board* b);
-
-/* Gets the cell at a position on the board. Raises an error if
- * the cell is out of bounds. */
-cell board_get(board* b, pos p);
-
-/* Sets the cell at a position on the board. Raises an error if
- * the cell is out of bounds. */
-void board_set(board* b, pos p, cell c);
+typedef class Board Board;
 
 #endif /* BOARD_H */
