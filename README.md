@@ -1,5 +1,7 @@
 # Topsy-Turvy
 
+Note: The game logic currently uses C, but I am in the process of switching to a C++ implementation.
+
 ## Rules
 
 Topsy-Turvy is a two-player board game that can be played in the terminal.
