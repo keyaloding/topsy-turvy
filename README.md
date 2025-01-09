@@ -1,6 +1,8 @@
 # Topsy-Turvy
 
-Note: The game logic currently uses C, but I am in the process of switching to a C++ implementation.
+Note: The game logic currently uses C, but I am in the process of switching to
+a C++ implementation by converting structs to classes and switching the testing
+framework.
 
 ## Rules
 

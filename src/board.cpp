@@ -1,24 +1,21 @@
 #include <iostream>
-#include "../headers/pos.hpp"
+#include "../headers/pos.h"
 #include "../headers/board.hpp"
 
 using namespace std;
 
-Board::Board(int b_height, int b_width, enum type b_type)
-            : height(b_height), width(b_width), type(b_type) {}
-
-Board::~Board() {}
+Board::Board(int b_height, int b_width, enum type b_type) : u () {
+  Board::set_height(b_height);
+  Board::set_width(b_width);
+  Board::set_type(b_type);
+}
 
 vector<vector<cell>> Board::get_matrix() {
-  if (Board::get_type() == BITS) {
-    fprintf(stderr, "");
-    exit(1);
-  }
-
+  return Board::u.matrix;
 }
 
 vector<int> Board::get_bits() {
-
+  return Board::u.bits;
 }
 
 void Board::board_show() {
@@ -77,12 +74,47 @@ cell Board::board_get(pos p) {
     exit(1);
   }
   if (Board::get_type() == MATRIX) {
-
+    return Board::get_matrix()[p.r][p.c];
+  } else {
+    int bit_index = (p.r * width + p.c) * 2;
+    int val = (Board::get_bits()[bit_index / 32] >> (bit_index % 32)) & 0x3;
+    switch (val) {
+      case 0:
+        return EMPTY;
+      case 1:
+        return BLACK;
+      case 2:
+        return WHITE;
+      default:
+        fprintf(stderr, "Error: Invalid bit representation\n");
+        exit(1);
+    };
   }
 }
 
 void Board::board_set(pos p, cell c) {
-  
+  int width = Board::get_width(), height = Board::get_height();
+  if (p.r >= height || p.c >= width) {
+    fprintf(stderr, "Error: Position (%u, %u) is out of bounds\n", p.r, p.c);
+    exit(1);
+  }
+  if (Board::get_type() == MATRIX) {
+    Board::get_matrix()[p.r][p.c] = c;
+  } else {
+    int bit_val, bit_index = (p.r * width + p.c) * 2;
+    Board::get_bits()[bit_index / 32] &= ~(0x3 << (bit_index % 32));
+    switch (c) {
+      case EMPTY:
+        bit_val = 0;
+        break;
+      case BLACK:
+        bit_val = 1;
+        break;
+      case WHITE:
+        bit_val = 2;
+        break;
+    };
+  }
 }
  
 int Board::get_height() {

@@ -22,9 +22,23 @@ typedef enum outcome outcome;
 
 class Game {
   public:
+    Game(int height, int width, int run, type type);
+
+    int get_run();
+
+    posqueue* get_queue(turn player);
+
+    Board get_board();
+
+    turn get_player();
+
+    void set_player();
 
   private:
     int run;
+    posqueue *black_queue, *white_queue;
+    turn player;
+    Board board;
 };
 
 struct game {

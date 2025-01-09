@@ -2,7 +2,7 @@
 #define BOARD_H
 
 #include <iostream>
-#include "pos.hpp"
+#include "pos.h"
 
 enum cell {
   EMPTY,
@@ -59,6 +59,12 @@ class Board {
     int get_width();
 
     type get_type();
+
+    void set_height(int h);
+
+    void set_width(int w);
+
+    void set_type(type t);
 
     vector<vector<cell>> get_matrix();
 

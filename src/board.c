@@ -97,11 +97,15 @@ void board_show(board* b) {
           break;
       }
     }
-    fprintf(stdout, "|\n");
+    fprintf(stdout, " %u\n", i);
   }
   fprintf(stdout, "  ");
   for (j = 0; j < b->width; j++) {
     fprintf(stdout, "-");
+  }
+  fprintf(stdout, "\n  ");
+  for (j = 0; j < b->width; j++) {
+    fprintf(stdout, "%u", j);
   }
   fprintf(stdout, "\n\n");
 }
