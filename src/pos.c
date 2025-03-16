@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "../headers/pos.h"
 
 pos make_pos(unsigned int r, unsigned int c) {

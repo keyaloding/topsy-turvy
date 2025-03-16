@@ -1,6 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "../headers/board.h"
 
 board* board_new(unsigned int width, unsigned int height, enum type type) {

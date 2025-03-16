@@ -1,8 +1,13 @@
 #ifndef LOGIC_H
 #define LOGIC_H
 
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdbool.h>
+#include <pthread.h>
 #include "board.h"
+#include "pos.h"
+#include "logic.h"
 
 enum turn {
     BLACKS_TURN,

@@ -1,6 +1,9 @@
 #ifndef POS_H
 #define POS_H
 
+#include <stdlib.h>
+#include <stdio.h>
+
 /* Represents a position on the board. */
 struct pos {
     unsigned int r, c;

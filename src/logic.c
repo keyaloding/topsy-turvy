@@ -1,10 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include <pthread.h>
-
-#include "../headers/pos.h"
-#include "../headers/board.h"
 #include "../headers/logic.h"
 
 game* new_game(unsigned int run, unsigned int width,
